@@ -7,7 +7,7 @@ export const createVal = [
   body("quantity").isNumeric().isInt({ min: 1 }),
   body("sold").optional().isEmpty(),
   body("price").notEmpty().isNumeric().isFloat({ min: 0.01, max: 200000 }),
-  body("imageCover").notEmpty(),
+  body("imageCover").optional(),
   body("category").notEmpty().isMongoId(),
   body("ratingsAverage").optional().isEmpty(),
   body("ratingsQuantity").optional().isEmpty(),
@@ -41,13 +41,13 @@ export const statisticsVal = [
     .optional()
     .isISO8601()
     .custom((value, { req }) => {
-      if(!req.query.end) throw new Error("must query end date")
+      if (!req.query.end) throw new Error("must query end date");
     }),
   query("end")
     .optional()
     .isISO8601()
     .custom((value, { req }) => {
-      if(!req.query.start) throw new Error("must query start date")
+      if (!req.query.start) throw new Error("must query start date");
     }),
-  validatorMiddleware
+  validatorMiddleware,
 ];
