@@ -1,9 +1,11 @@
 import AsyncHandler from "express-async-handler";
 import { productModel } from "../../models/product_model.js";
 import { ApiError } from "../../utils/api_errors.js";
+import { deleteImg } from "../../utils/deleteImg.js";
 
-export const create = AsyncHandler(async (req, res) => {
-  console.log(req.body);
+export const create = AsyncHandler(async (req, res, next) => {
+  if (!req.file) return next(new ApiError("imageCover is required", 406));
+  req.body.imageCover = req.file.filename;
   await productModel.create(req.body);
   res.status(201).json();
 });
@@ -32,6 +34,7 @@ export const findAll = AsyncHandler(async (req, res) => {
 });
 
 export const update = AsyncHandler(async (req, res, next) => {
+  if (req.file) req.body.imageCover = req.file.filename;
   const product = await productModel.findByIdAndUpdate(
     req.params.productId,
     req.body,
@@ -44,6 +47,7 @@ export const update = AsyncHandler(async (req, res, next) => {
 export const remove = AsyncHandler(async (req, res, next) => {
   const product = await productModel.findByIdAndRemove(req.params.productId);
   if (!product) next(new ApiError("cannot delete this product", 400));
+  deleteImg("uploads/products", product.imageCover);
   res.status(204).json();
 });
 
@@ -85,10 +89,8 @@ export const soldProductsCount = AsyncHandler(async (req, res) => {
     { $group: { _id: null, total: { $sum: "$sold" } } },
   ]);
 
-  res
-    .status(200)
-    .json({
-      productsCount,
-      soldCount: soldCount.length > 0 ? soldCount[0].total : 0,
-    });
+  res.status(200).json({
+    productsCount,
+    soldCount: soldCount.length > 0 ? soldCount[0].total : 0,
+  });
 });
