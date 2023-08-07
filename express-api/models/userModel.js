@@ -1,48 +1,59 @@
 import mongoose from "mongoose";
 import bcryptjs from "bcryptjs";
 
-const userSchema = new mongoose.Schema({
+const userSchema = new mongoose.Schema(
+  {
     name: {
-        type: String,
-        required: [true, "userName Is  Required"],
-        trim: true
+      type: String,
+      required: [true, "userName Is  Required"],
+      trim: true,
     },
     email: {
-        type: String,
-        required: [true, "Email Is Required"],
-        unique: [true, "Email Mustbe Unique"],
-        lowercase: true
+      type: String,
+      required: [true, "Email Is Required"],
+      unique: [true, "Email Mustbe Unique"],
+      lowercase: true,
     },
     password: {
-        type: String,
-        minlength: [6, "Too Short Password"],
+      type: String,
+      minlength: [6, "Too Short Password"],
     },
     changePasswordTime: Date,
     resetCodePassword: String,
     resetCodeExpire: Date,
-    resetCodeVerify:Boolean,
+    resetCodeVerify: Boolean,
     role: {
-        type: String,
-        enum: ["user", "admin" , "superAdmin"],
-        default: "user"
+      type: String,
+      enum: ["user", "admin", "superAdmin"],
+      default: "user",
     },
     active: {
-        type: Boolean,
-        default: true
+      type: Boolean,
+      default: true,
     },
-    wishList:[ {
+    wishList: [
+      {
         type: mongoose.Schema.ObjectId,
-        ref:"product"
-    }],
-    googleId:String
-}, { timestamps: true });
+        ref: "product",
+      },
+    ],
+    googleId: String,
+    cart: [
+      {
+        productId: { type: mongoose.Schema.ObjectId, ref: "products" },
+        quantity: { type: Number, default: 1 },
+      },
+    ],
+  },
+  { timestamps: true }
+);
 
 // hashing password
 
 userSchema.pre("save", async function (next) {
-    if (!this.isModified("password")) return next();
-    this.password = await bcryptjs.hash(this.password, 12);
-    next();
+  if (!this.isModified("password")) return next();
+  this.password = await bcryptjs.hash(this.password, 12);
+  next();
 });
 
 export const userModel = mongoose.model("users", userSchema);
