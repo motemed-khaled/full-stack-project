@@ -42,12 +42,14 @@ export const statisticsVal = [
     .isISO8601()
     .custom((value, { req }) => {
       if (!req.query.end) throw new Error("must query end date");
+      return value;
     }),
   query("end")
     .optional()
     .isISO8601()
     .custom((value, { req }) => {
       if (!req.query.start) throw new Error("must query start date");
+      return value;
     }),
   validatorMiddleware,
 ];
