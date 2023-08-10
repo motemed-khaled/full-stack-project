@@ -1,44 +1,32 @@
 import { Router } from "express";
-import {
-  getCategoryValidator,
-  creatCategoryValidator,
-  updateCategoryValidator,
-  deleteCategoryValidator,
-} from "../utils/validators/categoryValidator.js";
-import {
+import * as V from "../utils/validators/categoryValidator.js";
+import * as C from "../controllers/categoryController.js";
 
-  creatCategory,
-  getCategories,
-  getCategory,
-  updateCategory,
-  deleteCategory,
-} from "../controllers/categoryController.js";
-import {
-  auth as protectRoute,
-  allowedTo,
-} from "../controllers/authController.js";
+import { auth as protect, allowedTo } from "../controllers/authController.js";
 
 export const router = Router();
 
-router.use(protectRoute);
+router
+  .route("/")
+  .post(
+    protect,
+    allowedTo("superAdmin", "admin"),
+    V.creatCategoryValidator,
+    C.creatCategory
+  )
+  .get(C.getCategories);
 
-router.post(
-  "/creatCategory",
-  allowedTo("superAdmin", "admin"),
-  creatCategoryValidator,
-  creatCategory
-);
-router.get("/getCategories", getCategories);
-router.get("/getCategoryById/:id", getCategoryValidator, getCategory);
-router.put(
-  "/updateCategory/:id",
-  allowedTo("superAdmin", "admin"),
-  updateCategoryValidator,
-  updateCategory
-);
-router.delete(
-  "/deleteCategory/:id",
-  allowedTo("superAdmin", "admin"),
-  deleteCategoryValidator,
-  deleteCategory
-);
+router
+  .route("/:id")
+  .all(protect)
+  .get(V.getCategoryValidator, C.getCategory)
+  .put(
+    allowedTo("superAdmin", "admin"),
+    V.updateCategoryValidator,
+    C.updateCategory
+  )
+  .delete(
+    allowedTo("superAdmin", "admin"),
+    V.deleteCategoryValidator,
+    C.deleteCategory
+  );

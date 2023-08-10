@@ -1,7 +1,7 @@
 import * as factory from "./handlersFactory.js";
 import {reviewModel as Review} from "../models/review_model.js";
 
-export const getReviews = factory.getAll(Review);
+export const getReviews = factory.getAll(Review, 'review');
 
 export const getReview = factory.getOne(Review);
 
