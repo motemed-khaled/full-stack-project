@@ -9,7 +9,7 @@ router
   .route("/")
   .all(protect, allowedTo("user"))
   .post(V.addProductVal, C.addProductToCart)
-  .get(allowedTo("user"), C.getCartProducts)
+  .get(C.getCartProducts)
   .delete(V.removeProductVal, C.removeProductCart);
 
 export const cartRoutes = router;
