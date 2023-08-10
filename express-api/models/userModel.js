@@ -37,7 +37,7 @@ const userSchema = new mongoose.Schema(
         ref: "product",
       },
     ],
-    googleId: String,
+    googleId: { type: String, unique: true },
     cart: [
       {
         productId: { type: mongoose.Schema.ObjectId, ref: "product" },
