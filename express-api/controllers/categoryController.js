@@ -1,12 +1,12 @@
-const Categorymodel = require("../models/categoryModel");
-const factory = require("./handlersFactory");
+import  {catogryModel} from "../models/catogry-model.js";
+import  * as factory from "./handlersFactory.js";
 
-exports.getCategories = factory.getAll(Categorymodel, "categories");
+export const getCategories = factory.getAll(catogryModel, "categories");
 
-exports.getCategory = factory.getOne(Categorymodel, "category");
+export const getCategory = factory.getOne(catogryModel, "category");
 
-exports.creatCategory = factory.createOne(Categorymodel);
+export const creatCategory = factory.createOne(catogryModel);
 
-exports.updateCategory = factory.updateOne(Categorymodel, "category");
+export const updateCategory = factory.updateOne(catogryModel, "category");
 
-exports.deleteCategory = factory.deleteOne(Categorymodel, "category");
+export const deleteCategory = factory.deleteOne(catogryModel, "category");

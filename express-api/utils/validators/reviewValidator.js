@@ -1,8 +1,8 @@
-const { check, body } = require("express-validator");
-const validatorMiddleware = require("../../middlewares/validatorMiddleware");
-const Review = require("../../models/reviewModel");
+import { check, body } from "express-validator"
+import {validatorMiddleware} from "../../middleware/validator_middleware.js"
+import {reviewModel as Review} from "../../models/review_model.js"
 
-exports.createReviewValidator = [
+export const createReviewValidator = [
   check("title").optional(),
   check("rating")
     .notEmpty()
@@ -27,12 +27,12 @@ exports.createReviewValidator = [
   validatorMiddleware,
 ];
 
-exports.getReviewValidator = [
+export const getReviewValidator = [
   check("id").isMongoId().withMessage("Invalid Review id format"),
   validatorMiddleware,
 ];
 
-exports.updateReviewValidator = [
+export const updateReviewValidator = [
   check("id")
     .isMongoId()
     .withMessage("Invalid Review id format")
@@ -52,7 +52,7 @@ exports.updateReviewValidator = [
   validatorMiddleware,
 ];
 
-exports.deleteReviewValidator = [
+export const deleteReviewValidator = [
   check("id")
     .isMongoId()
     .withMessage("Invalid Review id format")

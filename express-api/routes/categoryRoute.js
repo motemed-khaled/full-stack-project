@@ -1,23 +1,24 @@
-const { Router } = require("express");
-const {
+import { Router } from "express";
+import {
   getCategoryValidator,
   creatCategoryValidator,
   updateCategoryValidator,
   deleteCategoryValidator,
-} = require("../utils/validators/categoryValidator");
-const {
+} from "../utils/validators/categoryValidator.js";
+import {
+
   creatCategory,
   getCategories,
   getCategory,
   updateCategory,
   deleteCategory,
-} = require("../controllers/categoryController");
+} from "../controllers/categoryController.js";
 import {
   auth as protectRoute,
   allowedTo,
 } from "../controllers/authController.js";
 
-export const router = express.Router();
+export const router = Router();
 
 router.use(protectRoute);
 

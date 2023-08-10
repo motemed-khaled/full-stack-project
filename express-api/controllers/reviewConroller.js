@@ -1,12 +1,12 @@
-const factory = require("./handlersFactory");
-const Review = require("../models/reviewModel");
+import * as factory from "./handlersFactory.js";
+import {reviewModel as Review} from "../models/review_model.js";
 
-exports.getReviews = factory.getAll(Review);
+export const getReviews = factory.getAll(Review);
 
-exports.getReview = factory.getOne(Review);
+export const getReview = factory.getOne(Review);
 
-exports.createReview = factory.createOne(Review);
+export const createReview = factory.createOne(Review);
 
-exports.updateReview = factory.updateOne(Review);
+export const updateReview = factory.updateOne(Review);
 
-exports.deleteReview = factory.deleteOne(Review);
+export const deleteReview = factory.deleteOne(Review);

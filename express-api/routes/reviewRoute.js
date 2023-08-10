@@ -1,21 +1,19 @@
-const express = require("express");
+import express from 'express'
 
-const {
+import {
   createReviewValidator,
   updateReviewValidator,
   getReviewValidator,
   deleteReviewValidator,
-} = require("../utils/validators/reviewValidator");
+} from "../utils/validators/reviewValidator.js";
 
-const {
+import {
   getReview,
   getReviews,
   createReview,
   updateReview,
   deleteReview,
-  createFilterObj,
-  setProductIdAndUserIdToBody,
-} = require("../controllers/reviewConroller");
+} from "../controllers/reviewConroller.js";
 
 import {
   auth as protectRoute,
