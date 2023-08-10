@@ -32,7 +32,7 @@ const productSchema = new mongoose.Schema({
         type: String,
         required: [true, "product image cover is required"]
     },
-    catogry: {
+    category: {
         type: mongoose.Schema.ObjectId,
         ref: "catogry",
         required: [true, "product must be belong to catogry"]
